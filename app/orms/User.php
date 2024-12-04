@@ -11,7 +11,7 @@
             return $this->id;
         }
 
-        public function setPrenom(): self {
+        public function setPrenom(string $prenom): self {
             $this->prenom = $prenom;
             return $this;
         }
@@ -19,7 +19,7 @@
             return $this->prenom;
         }
 
-        public function setNom(): self {
+        public function setNom(string $nom): self {
             $this->nom = $nom;
             return $this;
         }
@@ -27,7 +27,7 @@
             return $this->nom;
         }
 
-        public function setEmail(): self {
+        public function setEmail(string $email): self {
             $this->email = $email;
             return $this;
         }
@@ -35,7 +35,7 @@
             return $this->email;
         }
 
-        public function setPwd(): self {
+        public function setPwd(string $pwd): self {
             $this->pwd = $pwd;
             return $this;
         }
@@ -43,7 +43,7 @@
             return $this->pwd;
         }
 
-        public function setRole(): self {
+        public function setRole(string $role): self {
             $this->role = $role;
             return $this;
         }

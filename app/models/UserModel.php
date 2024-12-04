@@ -1,8 +1,8 @@
 <?php
-    class UserModel {
+    class UserModel extends Bdd {
         public function logUser(string $email, string $motdepasse): array {
             $email = htmlspecialchars(trim($POST['email']));
-            $pwd = htmlspecialchars(trim($POST['pwd']));
+            $pwd = htmlspecialchars(trim($POST['motdepasse']));
 
             $sql = 'SELECT email, motdepasse FROM users WHERE email = :email LIMIT 1';
             $params = [
@@ -27,7 +27,7 @@
             }
         }
 
-        public function createUser(array $data) : bool {
+        public function createUser(array $data) : bool { // la variable data n'est pas utilisé trouvé un moyen de l'utiliser en modifiant le code
             $prenom = htmlspecialchars(trim($POST['prenom']));
             $nom = htmlspecialchars(trim($POST['nom']));
             $email = htmlspecialchars(trim($POST['email']));
