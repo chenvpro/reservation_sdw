@@ -1,5 +1,5 @@
 <?php
-    class ActiviteModel {
+    class ActiviteModel extends Bdd {
         public function getAllActivities(): array {
             $activities = $this->co->prepare('SELECT nom FROM activities');
             $activities->execute();
@@ -8,19 +8,19 @@
         }
 
         public function getActivityById(int $id): array {
-            $activitie = $this->co->prepare('SELECT nom FROM activities WHERE id = :id LIMIT 1');
-            $activitie->setFetchMode(PDO::FETCH_CLASS, 'activities');
-            $activitie->execute([
+            $activity = $this->co->prepare('SELECT nom FROM activities WHERE id = :id LIMIT 1');
+            $activity->setFetchMode(PDO::FETCH_CLASS, 'activities');
+            $activity->execute([
             'id' => $id
             ]);
         
-            return $activitie->fetch();
+            return $activity->fetch();
         }
 
         public getPlacesLeft(): int {
-            $users = $this->co->prepare('SELECT place_disponibles FROM activities');
-            $users->execute();
+            $placesLeft = $this->co->prepare('SELECT place_disponibles FROM activities');
+            $placesLeft->execute();
         
-            return $users->fetchAll(PDO::FETCH_CLASS, 'activities');
+            return $placesLeft->fetchAll(PDO::FETCH_CLASS, 'activities');
         }
     }
