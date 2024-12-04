@@ -52,10 +52,10 @@
         }
 
         public function getAllUsers(): array {
-            $users = $this->co->prepare('SELECT prenom, nom FROM User');
+            $users = $this->co->prepare('SELECT prenom, nom FROM users');
             $users->execute();
 
-            return $users->fetchAll(PDO::FETCH_CLASS, 'User');
+            return $users->fetchAll(PDO::FETCH_CLASS, 'users');
         }
     }
 ?>
