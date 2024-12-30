@@ -1,26 +1,53 @@
 <?php
     class ActiviteModel extends Bdd {
+        /**
+         * @return array
+         * 
+         * Récupère toutes les activités
+         * retourne un tableau
+         */
         public function getAllActivities(): array {
-            $activities = $this->co->prepare('SELECT nom FROM activities');
-            $activities->execute();
+            $sql = 'SELECT * FROM activities';
 
-            return $activities->fetchAll(PDO::FETCH_CLASS, 'activities');
+            $select = $this->co->prepare($sql);
+            $select->execute();
+
+            return $select->fetchAll();
         }
 
+        /**
+         * @param int $id
+         * @return array
+         * 
+         * Récupère une activité en fonction de son id
+         * retourne un tableau
+         */
         public function getActivityById(int $id): array {
-            $activity = $this->co->prepare('SELECT nom FROM activities WHERE id = :id LIMIT 1');
-            $activity->setFetchMode(PDO::FETCH_CLASS, 'activities');
-            $activity->execute([
-            'id' => $id
-            ]);
-        
-            return $activity->fetch();
-        }
+            $sql = 'SELECT * FROM activities WHERE id = :id';
+            $params = [
+                'id' => $id 
+            ];
 
-        public getPlacesLeft(): int {
-            $placesLeft = $this->co->prepare('SELECT place_disponibles FROM activities');
-            $placesLeft->execute();
-        
-            return $placesLeft->fetchAll(PDO::FETCH_CLASS, 'activities');
+            $select = $this->co->prepare($sql);
+            $select->execute($params);
+
+            return $select->fetch();
+        }
+        /**
+         * @param array $data
+         * @return bool
+         * 
+         * Cette méthode permet de récupérer les places disponibles d'une activité
+         * retourne un tableau
+         * 
+         * ! à vérifier
+         */
+        public function getPlacesLeft(): int {
+            $sql = 'SELECT places_disponibles FROM activities';
+
+            $select = $this->co->prepare($sql);
+            $select->execute();
+
+            return (int) $select->fetch();
         }
     }

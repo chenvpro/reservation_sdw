@@ -1,61 +1,66 @@
 <?php
     class UserModel extends Bdd {
+        /**
+         * @param string $email
+         * @param string $motdepasse
+         * @return array 
+         * 
+         * Cette méthode permet de vérifier si l'utilisateur existe dans la base de données
+         * et si le mot de passe est correct
+         * retourne un tableau avec les infos de l'utilisateur si il existe 
+         * sinon retourne un tableau vide
+         */
         public function logUser(string $email, string $motdepasse): array {
-            $email = htmlspecialchars(trim($POST['email']));
-            $pwd = htmlspecialchars(trim($POST['motdepasse']));
-
-            $sql = 'SELECT email, motdepasse FROM users WHERE email = :email LIMIT 1';
+            $sql = 'SELECT * FROM users WHERE email = :email';
             $params = [
                 'email' => $email
             ];
-
+            
             $select = $this->co->prepare($sql);
             $select->execute($params);
-
-            if($select->rowCount() == 1){
-                $user = $select->fetch();
-                if(password_verify($pwd, $user['motdepasse'])){
-                    $_SESSION['email'] = $user['email'];
-                    return true;
-                }
-                else{
-                    $_SESSION['errors'][] = 'Identifiant ou mot de passe incorrect';
-                    return false;
-                }
+            
+            $user = $select->fetch();
+            if (password_verify($motdepasse, $user['motdepasse'])) {
+                return $user;
             } else {
-                return false;
+                return [];
             }
         }
 
-        public function createUser(array $data) : bool { // la variable data n'est pas utilisé trouvé un moyen de l'utiliser en modifiant le code
-            $prenom = htmlspecialchars(trim($POST['prenom']));
-            $nom = htmlspecialchars(trim($POST['nom']));
-            $email = htmlspecialchars(trim($POST['email']));
-            $motdepasse = htmlspecialchars(trim($POST['motdepasse']));
-            $role = htmlspecialchars(trim($POST['role']));
-
-            $sql = 'INSERT INTO users(prenom, nom, email, motdepasse, role) VALUES (:prenom, :nom, :email, :motdepasse)';
+        /**
+         * @param array $data
+         * @return bool
+         * 
+         * Cette méthode permet de créer un utilisateur dans la base de données
+         * retourne true si l'utilisateur a été créé
+         * sinon retourne false
+         */
+        public function createUser(array $data): bool {
+            $sql = 'INSERT INTO users (prenom, nom, email, motdepasse) VALUES (:prenom, :nom, :email, :motdepasse)';
             $params = [
-                'prenom' => $prenom,
-                'nom' => $nom,
-                'email' => $email,
-                'motdepasse' => password_hash(
-                    $pwd, 
-                    PASSWORD_BCRYPT
-                    )
-                ];
+                'prenom' => $data['prenom'],
+                'nom' => $data['nom'],
+                'email' => $data['email'],
+                'motdepasse' => password_hash($data['motdepasse'], PASSWORD_DEFAULT)
+            ];
 
             $insert = $this->co->prepare($sql);
-            $insert->execute($params);
-
-            return true;
+            return $insert->execute($params);
         }
 
+        /**
+         * @return array
+         * 
+         * Cette méthode permet de récupérer tous les utilisateurs de la base de données
+         * retourne un tableau d'objets utilisateurs
+         */
         public function getAllUsers(): array {
-            $users = $this->co->prepare('SELECT prenom, nom FROM users');
-            $users->execute();
+            $sql = 'SELECT * FROM  users';
 
-            return $users->fetchAll(PDO::FETCH_CLASS, 'users');
+            $select = $this->co->prepare($sql);
+            $select->execute();
+            
+            return $select->fetchAll(PDO::FETCH_CLASS, 'users');
         }
     }
 ?>
