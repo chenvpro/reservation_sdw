@@ -2,32 +2,50 @@
     class ActivityController {
         use Render;
 
+        /**
+         * @return void
+         * Cette méthode permet d'afficher toutes les activités
+         * Si l'utilisateur est un administrateur, il peut ajouter une activité
+         * * Validé
+         */
         public function index() {
             $activityModel = new ActiviteModel();
             $activities = $activityModel->getAllActivities();
             
             $data = [
                 'title' => 'Liste des activités',
-                'activities' => $activities,
-                'isAdmin' => $_SESSION['user'] && $_SESSION['user']['role'] === 'admin'
-            ];   
+                'content' => $activities,
+                'headerTitle' => 'Liste des activités'
+            ];
 
             $this->renderView('activity/show', $data);
         }
 
+        /**
+         * @return void
+         * Cette méthode permet d'afficher les détails d'une activité et affiche le formulaire de réservation
+         * Si l'utilisateur est un administrateur, il peut modifier ou supprimer l'activité 
+         * ! non fini
+         */
         public function show(int $id) {
             $activityModel = new ActiviteModel();
             $activityDetails = $activityModel->getActivityById($id);
 
             $data = [
                 'title' => 'Détails de l\'activité',
-                'activity' => $activityDetails,
-                'isAdmin' => $_SESSION['user'] && $_SESSION['user']['role'] === 'admin'
+                'content' => $activityDetails,
             ];
 
-            $this->renderView('activity/show', $data);
+            if ($_SESSION['user']['role'] === 'admin') {
+                $this->renderView('activity/show', $data);
+            }
         }
 
+        /**
+         * Méthode qui permet d'éditer une activité
+         * Page visible uniquement par les administrateurs
+         * * validé
+         */
         public function update(int $id, array $data) {
             if ($_SESSION['user']['role'] === 'admin') {
                 $db = new mysqli('localhost', 'root', "", "reservation_sdw");
@@ -53,6 +71,12 @@
             }
         }
 
+
+        /**
+         * Permet de supprimer une activité
+         * Page visible et accessible que par les administrateurs
+         * * validé
+         */
         public function cancel (int $id) {
             if ($_SESSION['user']['role'] === 'admin') {
                 $db = new mysqli('localhost', 'root', "", "reservation_sdw");
