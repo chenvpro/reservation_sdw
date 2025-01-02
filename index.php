@@ -4,7 +4,7 @@
     // Chargement de l'autoload de vendor
     require './vendor/autoload.php';
     // Chargement des variables d'environnement
-    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__); //! réajouter le package vlucas via ligne de commande
+    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
     $dotenv->load();
      
     // Chargement de notre autoload
