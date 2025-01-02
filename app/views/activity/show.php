@@ -1,4 +1,3 @@
-<main>
     <!-- Affichage d'une liste de toutes les activités -->
     <?php if (!empty($activities)): ?>
         <ul>
@@ -34,4 +33,3 @@
             <input type="text" name="duree" id="duree">
         </form>
     <?php endif; ?>
-</main>

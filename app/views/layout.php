@@ -11,6 +11,8 @@
         <h1><?= $headerTitle ?></h1>
         <a href="/activity/show"></a>
     </header>
-    <?= $content ?? '<p>Aucun contenu à afficher</p>' ?>
+    <main>
+        <?= $content ?? '<p>Aucun contenu à afficher</p>' ?>
+    </main>
 </body>
 </html>

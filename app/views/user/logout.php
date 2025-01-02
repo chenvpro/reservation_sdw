@@ -1,2 +1,1 @@
-<h1>Déconnexion</h1>
-<button>Cliquer pour vous déconnecter</button>
+<a href="/user/login">Cliquer pour vous déconnecter</a>

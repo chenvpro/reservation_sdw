@@ -1,4 +1,3 @@
-<h1>Créer un compte</h1>
 <form action="/user/register" method="POST">
     <label for="nom">Nom :</label>
     <input type="text" name="lastname" id="lastname" required>
