@@ -1,4 +1,4 @@
-<h1>Login</h1>
+<h1>Connexion</h1>
 <form action="user/login" method="POST">
     <label for="email">Email :</label>
     <input type="email" name="email" id="email" required>
