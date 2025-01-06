@@ -33,21 +33,23 @@
 
             return $select->fetch();
         }
+
         /**
-         * @param array $data
-         * @return bool
+         * @param int $id
+         * @return int
          * 
          * Cette méthode permet de récupérer les places disponibles d'une activité
-         * retourne un tableau
-         * 
-         * ! à vérifier
+         * retourne un entier
          */
-        public function getPlacesLeft(): int {
-            $sql = 'SELECT places_disponibles FROM activities';
+        public function getPlacesLeft(int $id): int {
+            $sql = 'SELECT places_disponibles FROM activities WHERE id = :id';
+            $params = [
+                'id' => $id
+            ];
 
             $select = $this->co->prepare($sql);
-            $select->execute();
+            $select->execute($params);
 
-            return (int) $select->fetch();
+            return (int) $select->fetchColumn();
         }
     }
