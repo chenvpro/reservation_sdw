@@ -14,19 +14,26 @@
          * sinon retourne un tableau vide
          */
         public function logUser(string $email, string $motdepasse): array {
-            $sql = 'SELECT * FROM users WHERE email = :email';
+            $email = htmlspecialchars(trim($_POST['email']));
+            $motdepasse = htmlspecialchars(trim($_POST['motdepasse']));
+
+            $sql = 'SELECT * FROM users WHERE email = :email LIMIT 1';
             $params = [
                 'email' => $email
             ];
             
             $select = $this->co->prepare($sql);
             $select->execute($params);
-            
-            $user = $select->fetch();
-            if (password_verify($motdepasse, $user['motdepasse'])) {
-                return $user;
-            } else {
-                return [];
+
+            if ($select->rowCount() == 1) {
+                $user = $select->fetch();
+                if (password_verify($motdepasse, $user['motdepasse'])) {
+                    $_SESSION['user'] = $user;
+                    return $user;
+                } else {
+                    $_SESSION['errors'][] = 'Identifiant ou mot de passe incorrect';
+                    return [];  
+                }
             }
         }
 

@@ -73,15 +73,20 @@
               if(empty(trim($_POST['email']))){
                 $_SESSION['errors'][] = 'Email obligatoire';
               }
-              if(empty(trim($_POST['password']))){
+              if(!isset($_POST['password']) || empty(trim($_POST['password']))){
                 $_SESSION['errors'][] = 'Mot de passe obligatoire';
               }
         
               $userModel = new UserModel();
-              $login = $userModel->logUser($_POST['email'], $_POST['password']);
+              $login = $userModel->logUser($_POST['email'], $_POST['motdepasse'] ?? '');
         
               if($login == true){
+                $_SESSION['email'] = $_POST['email'];
                 $logged = true;
+                header('location: /activity/listActivity'); // Redirect to a dashboard or home page after login
+                exit();
+              } else {
+                $_SESSION['errors'][] = 'Email ou mot de passe incorrect';
               }
             }
         
