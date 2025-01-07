@@ -28,29 +28,37 @@
         public function register() {
             require './app/views/user/register.php';
 
-            if(empty(trim($_POST['nom']))){
-              die('<p>Nom obligatoire</p>');
-            }
-            if(empty(trim($_POST['prenom']))){
-              die('<p>Prénom obligatoire</p>');
-            }
-            if(empty(trim($_POST['email']))){
-              die('<p>Email obligatoire</p>');
-            }
-            if(empty(trim($_POST['password']))){
-              die('<p>Mot de passe obligatoire</p>');
-            }
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $errors = [];
+                if (!isset($_POST['nom']) || empty(trim($_POST['nom']))) {
+                    $errors[] = 'Nom obligatoire';
+                }
+                if (!isset($_POST['prenom']) || empty(trim($_POST['prenom']))) {
+                    $errors[] = 'Prénom obligatoire';
+                }
+                if (!isset($_POST['email']) || empty(trim($_POST['email']))) {
+                    $errors[] = 'Email obligatoire';
+                }
+                if (!isset($_POST['password']) || empty(trim($_POST['password']))) {
+                    $errors[] = 'Mot de passe obligatoire';
+                }
 
-            $userModel = new UserModel();
-            $newUser = $userModel->createUser($_POST);
+                if (empty($errors)) {
+                    $userModel = new UserModel();
+                    $newUser = $userModel->createUser($_POST);
 
-            if ($newUser > 0) {
-              header('location: /user/login');
-            } else {
-              die('<p>Une erreur est survenue</p>');
+                    if ($newUser > 0) {
+                        header('location: /user/login');
+                    } else {
+                        echo '<p>Une erreur est survenue</p>';
+                    }
+                } else {  
+                    foreach ($errors as $error) {
+                        echo '<p>' . $error . '</p>';
+                    }
+                }
             }
         }
-        
 
         /**
          * Cette méthode permet de connecter un utilisateur
@@ -65,12 +73,12 @@
               if(empty(trim($_POST['email']))){
                 $_SESSION['errors'][] = 'Email obligatoire';
               }
-              if(empty(trim($_POST['motdepasse']))){
+              if(empty(trim($_POST['password']))){
                 $_SESSION['errors'][] = 'Mot de passe obligatoire';
               }
         
               $userModel = new UserModel();
-              $login = $userModel->logUser($_POST['email'], $_POST['motdepasse']);
+              $login = $userModel->logUser($_POST['email'], $_POST['password']);
         
               if($login == true){
                 $logged = true;

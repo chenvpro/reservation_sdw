@@ -1,5 +1,5 @@
 <?php 
-    if($logged === true){
+    if(isset($_SESSION['user'])){
       echo 'Connecté';
     }
     else{
