@@ -5,7 +5,6 @@
         /**
          * Cette méthode liste les utilisateurs inscrits
          * Page visible uniquement par les administrateurs
-         * ! non fini
          */
         public function index() {
             if ($_SESSION['user']['role'] === 'admin') {
@@ -14,10 +13,10 @@
 
                 $data = [
                     'title' => 'Liste des utilisateurs',
-                    'content' => $users,
+                    'users' => $users,
                 ];
 
-                $this->renderView('user/index', $data);
+                $this->renderView('user/listUser', $data);
             } else {
                 echo "Vous n'avez pas les droits pour voir ces informations";
             }
@@ -25,18 +24,36 @@
 
         /**
          * Cette méthode permet d'inscrire un nouvel utilisateur
-         * ! non fini
          */
         public function register() {
+            require './app/views/user/register.php';
+
+            if(empty(trim($_POST['nom']))){
+              die('<p>Nom obligatoire</p>');
+            }
+            if(empty(trim($_POST['prenom']))){
+              die('<p>Prénom obligatoire</p>');
+            }
+            if(empty(trim($_POST['email']))){
+              die('<p>Email obligatoire</p>');
+            }
+            if(empty(trim($_POST['password']))){
+              die('<p>Mot de passe obligatoire</p>');
+            }
+
             $userModel = new UserModel();
             $newUser = $userModel->createUser($_POST);
-            
-            // ! afficher
+
+            if ($newUser > 0) {
+              header('location: /user/login');
+            } else {
+              die('<p>Une erreur est survenue</p>');
+            }
         }
+        
 
         /**
          * Cette méthode permet de connecter un utilisateur
-         * * validé
          */
         public function login() {
             $logged = false;
@@ -48,7 +65,7 @@
               if(empty(trim($_POST['email']))){
                 $_SESSION['errors'][] = 'Email obligatoire';
               }
-              if(empty(trim($_POST['pwd']))){
+              if(empty(trim($_POST['motdepasse']))){
                 $_SESSION['errors'][] = 'Mot de passe obligatoire';
               }
         
@@ -65,8 +82,6 @@
 
         /**
          * Cette méthode permet de déconnecter l'utilisateur
-         * 
-         * ! non fini
          */
         public function logout() {
             unset($_SESSION['email']);

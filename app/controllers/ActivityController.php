@@ -6,7 +6,6 @@
          * @return void
          * Cette méthode permet d'afficher toutes les activités
          * Si l'utilisateur est un administrateur, il peut ajouter une activité
-         * * Validé
          */
         public function index() {
             $activityModel = new ActiviteModel();
@@ -14,18 +13,16 @@
             
             $data = [
                 'title' => 'Liste des activités',
-                'content' => $activities,
-                'headerTitle' => 'Liste des activités'
+                'activities' => $activities,
             ];
 
-            $this->renderView('activity/show', $data);
+            $this->renderView('activity/listActivity', $data);
         }
 
         /**
          * @return void
          * Cette méthode permet d'afficher les détails d'une activité et affiche le formulaire de réservation
          * Si l'utilisateur est un administrateur, il peut modifier ou supprimer l'activité 
-         * ! non fini
          */
         public function show(int $id) {
             $activityModel = new ActiviteModel();
@@ -33,18 +30,15 @@
 
             $data = [
                 'title' => 'Détails de l\'activité',
-                'content' => $activityDetails,
+                'activityDetails' => $activityDetails,
             ];
 
-            if ($_SESSION['user']['role'] === 'admin') {
-                $this->renderView('activity/show', $data);
-            }
+            $this->renderView('activity/showActivity', $data);
         }
 
         /**
          * Méthode qui permet d'éditer une activité
          * Page visible uniquement par les administrateurs
-         * * validé
          */
         public function update(int $id, array $data) {
             if ($_SESSION['user']['role'] === 'admin') {
@@ -71,11 +65,9 @@
             }
         }
 
-
         /**
          * Permet de supprimer une activité
          * Page visible et accessible que par les administrateurs
-         * * validé
          */
         public function cancel (int $id) {
             if ($_SESSION['user']['role'] === 'admin') {

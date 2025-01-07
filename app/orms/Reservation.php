@@ -18,11 +18,11 @@
             return $this->user_id;
         }
 
-        public function setActiviteId(int $activite_id): self {
+        public function setActivityId(int $activite_id): self {
             $this->activite_id = $activite_id;
             return $this;
         }
-        public function getActiviteId(): int {
+        public function getActivityId(): int {
             return $this->activite_id;
         }
 

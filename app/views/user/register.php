@@ -1,9 +1,9 @@
 <form action="/user/register" method="POST">
     <label for="nom">Nom :</label>
-    <input type="text" name="lastname" id="lastname" required>
+    <input type="text" name="nom" id="lastname" required>
     <br>
     <label for="prenom">Prénom :</label>
-    <input type="text" name="firstname" id="firstname" required>
+    <input type="text" name="prenom" id="firstname" required>
     <br>
     <label for="email">Email :</label>
     <input type="email" name="email" id="email" required>

@@ -1,11 +1,11 @@
     <!-- Affichage d'une liste de toutes les activités -->
     <?php if (!empty($activities)): ?>
         <ul>
-            <?php foreach ($activities as $activity): ?>
-            <li>
-                <a href=""><?= htmlspecialchars($activity['nom']) ?></a> - <?= htmlspecialchars($activity['description']) ?>
-            </li>
-            <?php endforeach; ?>
+            <?php 
+                foreach ($activities as $activity) {
+                    echo '<li><a>' . $activity->getNom() . $activity->getDescription() . '</a></li>';
+                }
+            ?>
         </ul>
     <?php else: ?>
         <p>Aucune activité à afficher</p>
@@ -13,7 +13,7 @@
     <!-- Partie de l'administrateur pour ajouter une activité -->
     <?php if ($_SESSION['user']['role'] === 'admin'): ?>
         <h3>Ajout d'une activité</h3>
-        <form action="/user/add" method="POST">
+        <form action="/activity/listActivity" method="POST">
             <label for="name">Nom :</label>
             <input type="text" name="name" id="name">
             <br>
@@ -31,5 +31,7 @@
             <br>
             <label for="duree">Durée :</label>
             <input type="text" name="duree" id="duree">
+            <br>
+            <input type="submit" value="Modifier">
         </form>
     <?php endif; ?>

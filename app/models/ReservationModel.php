@@ -1,5 +1,9 @@
 <?php
     class ReservationModel extends Bdd {
+        public function __construct(){
+            parent::__construct();
+        }
+        
         public function createReservation(int $userId, int $activityId): bool {
             $sql = 'INSERT INTO reservation (user_id, activite_id, date_reservation, etat) VALUES (:user_id, :activite_id, NOW(), 1)';
             $params = [

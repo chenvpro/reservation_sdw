@@ -8,8 +8,7 @@
 </head>
 <body>
     <header>
-        <h1><?= $headerTitle ?></h1>
-        <a href="/activity/show"></a>
+        <h1>Site de réservation</h1>
     </header>
     <main>
         <?= $content ?? '<p>Aucun contenu à afficher</p>' ?>
