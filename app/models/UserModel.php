@@ -39,6 +39,10 @@
          * sinon retourne false
          */
         public function createUser(array $data): bool {
+            if (empty($data['motdepasse'])) {
+                throw new InvalidArgumentException('Le mot de passe est obligatoire');
+            }
+
             $sql = 'INSERT INTO users (prenom, nom, email, motdepasse) VALUES (:prenom, :nom, :email, :motdepasse)';
             $params = [
                 'prenom' => $data['prenom'],
